@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+>
 
 <head>
     <meta charset="UTF-8" />
@@ -107,41 +107,53 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="person : ${persons}">
-                    <th scope="row"
-                        th:text="${person.id}">1</th>
-                    <td th:text="${person.name}">Janusz</td>
-                    <td th:text="${person.surname}">Kłopociński</td>
-                    <td th:text="${person.email}">janusz.k@nomailcom</td>
-                    <td th:text="${person.dateOfBirth}">2000-01-01</td>
-                    <td th:text="${person.personalNumber}">12304982 30</td>
-                </tr>
-                <tr th:remove="all">
-                    <th scope="row">2</th>
-                    <td>Zbigniew</td>
-                    <td>Gąpka</td>
-                    <td>zibi.gabka@somedomain.com</td>
-                    <td>1999-01-01</td>
-                    <td>0091929 92</td>
-                </tr>
-                <tr th:remove="all">
-                    <th scope="row">3</th>
-                    <td>Piotr</td>
-                    <td>Kłopotek</td>
-                    <td>p.trabel@double-trouble.com</td>
-                    <td>1995-03-01</td>
-                    <td>1234-pl-10</td>
-                </tr>
-                <tr th:remove="all"></tr>
             </tbody>
+            <tfoots>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Imie</th>
+                    <th scope="col">Nazwisko</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Data urodzenia</th>
+                    <th scope="col">PESEL</th>
+                </tr>
+            </tfoots>
         </table>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#myDataTable").DataTable({
+            $('#myDataTable').DataTable({
+                "processing": true,
+                //"serverSide": true,
+                "ajax": {
+                    url: "../api/data",
+                    dataSrc: function (json) {
+                        for (var i = 0, ien = json.data.length; i < ien; i++) {
+                            json.data[i][0] = '<a href="/message/' + json.data[i][0] + '>View message</a>';
+                        }
+                        return json.data;
+                    },
+                    dataFilter: function (data) {
+                        let json = {};
+                        json.data = jQuery.parseJSON(data);
+                        json.draw = 1;
+                        json.recordsTotal = json.data.length;
+                        json.recordsFiltered = json.data.length;
+                        result = JSON.stringify(json); // return JSON string 
+                        return result;
+                    }
+                },
                 language: {
                     url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
                 },
+                columns: [
+                    { "data": "id" },
+                    { "data": "name" },
+                    { "data": "surname" },
+                    { "data": "email" },
+                    { "data": "dateOfBirth" },
+                    { "data": "personalNumber" }
+                ]
             });
         });
     </script>

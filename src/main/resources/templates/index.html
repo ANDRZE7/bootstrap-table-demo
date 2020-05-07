@@ -124,9 +124,11 @@
         $(document).ready(function () {
             $('#myDataTable').DataTable({
                 "processing": true,
-                //"serverSide": true,
+                "serverSide": true,
                 "ajax": {
-                    url: "../api/data",
+                    url: "../api/data/managed",
+                    //url: "../api/data/managed/post",
+                    //type: "POST",
                     dataSrc: function (json) {
                         for (var i = 0, ien = json.data.length; i < ien; i++) {
                             json.data[i][0] = '<a href="/message/' + json.data[i][0] + '>View message</a>';

@@ -28,4 +28,10 @@ public class PersonController {
         return "example2";
     }
 
+    @GetMapping({"/api/data"})
+    @ResponseBody
+    public Iterable<Person> getPersons() {
+        return personRepository.findAll();
+    }
+
 }

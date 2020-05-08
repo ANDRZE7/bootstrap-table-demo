@@ -25,11 +25,9 @@
             padding:0.5em;
             text-align:justify;
         }
-        
         p {
             padding-bottom: 0.1rem;margin:0em;text-align:justify;
         }
-        
         .row {
             margin-bottom: 1em;
         }
@@ -44,8 +42,12 @@
         <hr />
         <div class="heading">
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus quaerat at id ut saepe alias facere dolore quae sint perspiciatis. Hic dolorum ratione nihil quia sit perferendis porro minus illo? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi omnis, aliquid similique doloribus sequi vitae sunt magnam, dolores distinctio ut cum quis non, ullam quibusdam quaerat repellendus commodi explicabo laboriosam.
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia distinctio sit nesciunt vel ut? Hic fuga dignissimos iusto magni commodi inventore, nostrum ea veniam. Eaque ab earum aperiam similique qui?
+                This page shows three examples of working with DataTables: 
+                <ul class="no-points">
+                    <li>All data pushed by server</li>
+                    <li>All data pulled by client</li>
+                    <li>Paged data queried by client (managed by server)</li>
+                </ul>
             </p>
         </div>
         <hr />
@@ -56,21 +58,19 @@
                     <a th:href="@{persons/example1}">Example 1</a>
                 </div>
                 <div class="col col-sm-10">
-                    <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum voluptate nisi, modi deleniti nesciunt ex molestias doloremque adipisci saepe optio eaque, quasi eius delectus minima repudiandae? Laboriosam, inventore odit? Doloremque!
-                    </p>
+                    <p>Server returns all data with the page. DataTable manages paging of the whole dataset on the client side.</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col col-sm-2">
-                    <a>Example 2</a>
+                    <a th:href="@{persons/example2}">Example 2</a>
                 </div>
                 <div class="col col-sm-10">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quasi ipsam aperiam ad itaque non sunt hic vero, ab natus dolore dignissimos excepturi accusantium sint unde quo, aspernatur esse consequuntur?
+                        Scafolding of the table is rendered on the server side, the page is sent to a client with no data. DataTable prforms ajax call to poll the whole data-set. Paging is managed by DataTable on the client side.
                     </p>
                     <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Explicabo, ullam minima beatae repellat temporibus fuga quae pariatur voluptate assumenda. Ut vel perferendis autem iusto dolores aut sunt qui est repellat.
+                        Just the scafolding of the table is rendered on the server side, than the page is give to client just with a hedar and/or footer. On page load the data is polled from the server by ajax call. The paging of the hole recordset is managed by the datatable in the client side; the same as in the first example.
                     </p>
                 </div>
             </div>
@@ -80,31 +80,13 @@
                 </div>
                 <div class="col col-sm-10">
                     <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde non eum earum praesentium fugiat eos dicta voluptates quae possimus assumenda, vero dolor nesciunt minima error quidem. Corrupti reiciendis amet repudiandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad reprehenderit impedit ipsam ratione nihil possimus laudantium illum, quidem voluptatum. Deleniti perspiciatis provident repudiandae, illo expedita voluptates in asperiores nemo quae!
+                        Yet not implemented!
                     </p>
                 </div>
             </div>
         </div>
 
     </div>
-
-     <script type="text/javascript">
-     /*
-        $(document).ready(function () {
-            // initializeTable(tableId, processing, serverSide, url, languageUrl)
-            initializeTable("tableId", false, false);
-        }
-
-        $(document).ready(function () {
-            $("#myDataTable").DataTable({
-                language: {
-                    url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
-                },
-            });
-        });
-    */
-    </script>
-
 </body>
 
 </html>

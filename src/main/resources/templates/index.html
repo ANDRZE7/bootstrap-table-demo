@@ -6,157 +6,90 @@
     <meta charset="UTF-8" />
     <title>Bootstrap DataTable Example</title>
 
-    <!-- Added required for bootstrap and DataTable -->
+    <!-- Required for bootstrap  -->
     <link rel="stylesheet"
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/autofill/2.3.4/css/autoFill.bootstrap4.min.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/colreorder/1.5.2/css/colReorder.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/fixedcolumns/3.3.0/css/fixedColumns.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/keytable/2.5.1/css/keyTable.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/rowgroup/1.1.1/css/rowGroup.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/scroller/2.0.1/css/scroller.bootstrap4.css" />
-    <link rel="stylesheet"
-          type="text/css"
-          href="https://cdn.datatables.net/searchpanes/1.0.1/css/searchPanes.bootstrap4.css" />
 
     <script type="text/javascript"
             src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/autofill/2.3.4/js/dataTables.autoFill.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/autofill/2.3.4/js/autoFill.bootstrap4.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.bootstrap4.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/colreorder/1.5.2/js/dataTables.colReorder.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/keytable/2.5.1/js/dataTables.keyTable.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/rowgroup/1.1.1/js/dataTables.rowGroup.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/scroller/2.0.1/js/dataTables.scroller.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/searchpanes/1.0.1/js/dataTables.searchPanes.js"></script>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/searchpanes/1.0.1/js/searchPanes.bootstrap4.js"></script>
+
+    <style>
+        div.heading {
+            margin-left: 1em;margin-right: 1em;
+            padding:0.5em;
+            text-align:justify;
+        }
+        div.content {
+            margin-left: 2.5em;margin-right: 2.5em;
+            padding:0.5em;
+            text-align:justify;
+        }
+        
+        p {
+            padding-bottom: 0.1rem;margin:0em;text-align:justify;
+        }
+        
+        .row {
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 
 <body>
-    <h2 style="text-align: center;">Lista Osób</h2>
 
-    <hr />
+    <div class="container col-sm-6"
+         style="padding-top:3rem">
+        <h2 style="text-align: center;">DataTable Examples</h2>
+        <hr />
+        <div class="heading">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus quaerat at id ut saepe alias facere dolore quae sint perspiciatis. Hic dolorum ratione nihil quia sit perferendis porro minus illo? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi omnis, aliquid similique doloribus sequi vitae sunt magnam, dolores distinctio ut cum quis non, ullam quibusdam quaerat repellendus commodi explicabo laboriosam.
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia distinctio sit nesciunt vel ut? Hic fuga dignissimos iusto magni commodi inventore, nostrum ea veniam. Eaque ab earum aperiam similique qui?
+            </p>
+        </div>
+        <hr />
 
-    <div class="container mb-3 mt-3">
-        <table class="table table-striped table-bordered"
-               style="width: 100%;"
-               id="myDataTable">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Imie</th>
-                    <th scope="col">Nazwisko</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Data urodzenia</th>
-                    <th scope="col">PESEL</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoots>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Imie</th>
-                    <th scope="col">Nazwisko</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Data urodzenia</th>
-                    <th scope="col">PESEL</th>
-                </tr>
-            </tfoots>
-        </table>
+        <div class="content">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <a href="index.html">Example 1</a>
+                </div>
+                <div class="col col-sm-10">
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum voluptate nisi, modi deleniti nesciunt ex molestias doloremque adipisci saepe optio eaque, quasi eius delectus minima repudiandae? Laboriosam, inventore odit? Doloremque!
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-2">
+                    <a href="index.html">Example 2</a>
+                </div>
+                <div class="col col-sm-10">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quasi ipsam aperiam ad itaque non sunt hic vero, ab natus dolore dignissimos excepturi accusantium sint unde quo, aspernatur esse consequuntur?
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Explicabo, ullam minima beatae repellat temporibus fuga quae pariatur voluptate assumenda. Ut vel perferendis autem iusto dolores aut sunt qui est repellat.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-2">
+                    <a href="index.html">Example 3</a>
+                </div>
+                <div class="col col-sm-10">
+                    <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde non eum earum praesentium fugiat eos dicta voluptates quae possimus assumenda, vero dolor nesciunt minima error quidem. Corrupti reiciendis amet repudiandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad reprehenderit impedit ipsam ratione nihil possimus laudantium illum, quidem voluptatum. Deleniti perspiciatis provident repudiandae, illo expedita voluptates in asperiores nemo quae!
+                    </p>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#myDataTable').DataTable({
-                "processing": true,
-                //"serverSide": true,
-                "ajax": {
-                    url: "../api/data",
-                    dataSrc: function (json) {
-                        for (var i = 0, ien = json.data.length; i < ien; i++) {
-                            json.data[i][0] = '<a href="/message/' + json.data[i][0] + '>View message</a>';
-                        }
-                        return json.data;
-                    },
-                    dataFilter: function (data) {
-                        let json = {};
-                        json.data = jQuery.parseJSON(data);
-                        json.draw = 1;
-                        json.recordsTotal = json.data.length;
-                        json.recordsFiltered = json.data.length;
-                        result = JSON.stringify(json); // return JSON string 
-                        return result;
-                    }
-                },
-                language: {
-                    url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
-                },
-                columns: [
-                    { "data": "id" },
-                    { "data": "name" },
-                    { "data": "surname" },
-                    { "data": "email" },
-                    { "data": "dateOfBirth" },
-                    { "data": "personalNumber" }
-                ]
-            });
-        });
-    </script>
+
 </body>
 
 </html>

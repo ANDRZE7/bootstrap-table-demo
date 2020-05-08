@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,23 +18,25 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Map;
 
 @Controller
+@RequestMapping("persons")
 public class PersonController {
 
-    private final PersonService personService;
+    private final PersonRepository personRepository;
 
-    public PersonController(PersonService personService) {
-        this.personService = personService;
+    public PersonController(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
-    /**
-     *
-     * @param model to which the all persons list is passed to the view
-     * @return index view
-     */
-    @GetMapping({"", "index"})
-    public String getPersons(Model model) {
-        model.addAttribute("persons", personService.findAll());
-        return "index";
+    @GetMapping({"", "index", "example1"})
+    public String getPersonsExample1(Model model) {
+        model.addAttribute("persons", personRepository.findAll());
+        return "example1";
+    }
+
+    @GetMapping({"example2"})
+    public String getPersonsExample2(Model model) {
+        model.addAttribute("persons", personRepository.findAll());
+        return "example2";
     }
 
     /**
@@ -43,7 +46,7 @@ public class PersonController {
     @GetMapping({"/api/data"})
     @ResponseBody
     public Iterable<Person> getPersons() {
-        return personService.findAll();
+        return personRepository.findAll();
     }
 
     @GetMapping({"/api/data/managed"})

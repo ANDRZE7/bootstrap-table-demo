@@ -4,8 +4,10 @@ import com.example.bootstraptabledemo.domain.PersonRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("persons")
 public class PersonController {
 
     private final PersonRepository personRepository;
@@ -14,10 +16,16 @@ public class PersonController {
         this.personRepository = personRepository;
     }
 
-    @GetMapping({"", "index"})
-    public String getPersons(Model model) {
+    @GetMapping({"", "index", "example1"})
+    public String getPersonsExample1(Model model) {
         model.addAttribute("persons", personRepository.findAll());
-        return "index";
+        return "example1";
+    }
+
+    @GetMapping({"example2"})
+    public String getPersonsExample2(Model model) {
+        model.addAttribute("persons", personRepository.findAll());
+        return "example2";
     }
 
 }

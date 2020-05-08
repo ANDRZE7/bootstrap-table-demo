@@ -21,21 +21,21 @@ import java.util.Map;
 @RequestMapping("persons")
 public class PersonController {
 
-    private final PersonRepository personRepository;
+    private final PersonService personService;
 
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     @GetMapping({"", "index", "example1"})
     public String getPersonsExample1(Model model) {
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personService.findAll());
         return "example1";
     }
 
     @GetMapping({"example2"})
     public String getPersonsExample2(Model model) {
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personService.findAll());
         return "example2";
     }
 
@@ -46,7 +46,7 @@ public class PersonController {
     @GetMapping({"/api/data"})
     @ResponseBody
     public Iterable<Person> getPersons() {
-        return personRepository.findAll();
+        return personService.findAll();
     }
 
     @GetMapping({"/api/data/managed"})

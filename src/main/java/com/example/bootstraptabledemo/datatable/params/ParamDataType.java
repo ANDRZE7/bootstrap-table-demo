@@ -1,4 +1,5 @@
 package com.example.bootstraptabledemo.datatable.params;
 
-public interface SearchParam extends Param {
+public enum ParamDataType {
+    STRING, BOOLEAN, NUMBER
 }

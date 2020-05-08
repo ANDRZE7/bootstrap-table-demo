@@ -1,12 +1,9 @@
 package com.example.bootstraptabledemo.datatable;
 
-import lombok.Getter;
-import lombok.Setter;
+public interface ColumnOrder {
+    Integer getIndex();
 
-@Getter
-@Setter
-public class ColumnOrder {
-    private Integer index;
-    private Integer column;
-    private String dir;
+    Integer getColumn();
+
+    String getDir();
 }

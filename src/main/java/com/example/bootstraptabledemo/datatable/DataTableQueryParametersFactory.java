@@ -1,9 +1,6 @@
 package com.example.bootstraptabledemo.datatable;
 
-import com.example.bootstraptabledemo.datatable.params.ColumnParam;
-import com.example.bootstraptabledemo.datatable.params.OrderParam;
-import com.example.bootstraptabledemo.datatable.params.Param;
-import com.example.bootstraptabledemo.datatable.params.SearchParam;
+import com.example.bootstraptabledemo.datatable.params.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -71,7 +68,7 @@ public class DataTableQueryParametersFactory {
     private static Param resolveWithOrderResolver(Map.Entry<String, String> entry) {
         try {
             int index = Integer.parseInt(entry.getKey().replaceAll("[^0-9]", ""));
-            return OrderParam.orderParamBuilder()
+            return OrderParamImpl.orderParamBuilder()
                     .id(entry.getKey())
                     .index(index)
                     .name(extractName(entry.getKey().replaceAll("order\\["+index+"\\]", "")))
@@ -84,7 +81,7 @@ public class DataTableQueryParametersFactory {
     }
 
     private static Param resolveWithSearchResolver(Map.Entry<String, String> entry) {
-        return SearchParam.builder().id(entry.getKey())
+        return SearchParamImpl.builder().id(entry.getKey())
                 .name(extractName(entry.getKey().replaceAll("search", "[search]")))
                 .value(entry.getValue()).build();
     }
@@ -92,7 +89,7 @@ public class DataTableQueryParametersFactory {
     private static Param resolveWithColumnResolver(Map.Entry<String, String> entry) {
         try {
             int columnId = Integer.parseInt(entry.getKey().replaceAll("[^0-9]", ""));
-            return ColumnParam.columnParamBuilder()
+            return ColumnParamImpl.columnParamBuilder()
                     .id(entry.getKey())
                     .columnId(columnId)
                     .name(extractName(entry.getKey().replaceAll("columns\\["+columnId+"\\]", "")))
@@ -105,7 +102,7 @@ public class DataTableQueryParametersFactory {
     }
 
     private static Param resolveSimple(Map.Entry<String, String> entry) {
-        return Param.builder().id(entry.getKey()).name(entry.getKey()).value(entry.getValue()).build();
+        return ParamImpl.builder().id(entry.getKey()).name(entry.getKey()).value(entry.getValue()).build();
     }
 
     /*

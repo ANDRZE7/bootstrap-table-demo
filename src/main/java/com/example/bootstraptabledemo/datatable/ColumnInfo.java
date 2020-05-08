@@ -1,16 +1,17 @@
 package com.example.bootstraptabledemo.datatable;
 
-import lombok.Getter;
-import lombok.Setter;
+public interface ColumnInfo {
+    Integer getIndex();
 
-@Getter
-@Setter
-public class ColumnInfo {
-    private Integer index;
-    private String data;
-    private String name;
-    private Boolean searchable;
-    private Boolean orderable;
-    private String searchValue;
-    private Boolean searchRegex;
+    String getData();
+
+    String getName();
+
+    Boolean getSearchable();
+
+    Boolean getOrderable();
+
+    String getSearchValue();
+
+    Boolean getSearchRegex();
 }

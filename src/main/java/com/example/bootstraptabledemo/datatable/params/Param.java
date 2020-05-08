@@ -1,16 +1,8 @@
 package com.example.bootstraptabledemo.datatable.params;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@Builder
-public class Param {
-    private final String id;
-    private final String name;
-    private final String value;
+public interface Param {
+    String getId();
+    String getName();
+    String getValue();
+    ParamDataType getDataType();
 }

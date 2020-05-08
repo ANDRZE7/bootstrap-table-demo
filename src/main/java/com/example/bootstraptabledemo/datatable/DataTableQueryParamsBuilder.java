@@ -1,9 +1,9 @@
 package com.example.bootstraptabledemo.datatable;
 
-import com.example.bootstraptabledemo.datatable.params.ColumnParam;
-import com.example.bootstraptabledemo.datatable.params.OrderParam;
+import com.example.bootstraptabledemo.datatable.params.ColumnParamImpl;
+import com.example.bootstraptabledemo.datatable.params.OrderParamImpl;
 import com.example.bootstraptabledemo.datatable.params.Param;
-import com.example.bootstraptabledemo.datatable.params.SearchParam;
+import com.example.bootstraptabledemo.datatable.params.SearchParamImpl;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
@@ -27,20 +27,20 @@ class DataTableQueryParamsBuilder {
     private Integer start;
     private String searchValue;
     private Boolean searchRegex;
-    private final Set<ColumnOrder> columnOrders = new HashSet<>();
-    private final Set<ColumnInfo> columnInfos = new HashSet<>();
+    private final Set<ColumnOrderImpl> columnOrders = new HashSet<>();
+    private final Set<ColumnInfoImpl> columnInfos = new HashSet<>();
 
     public DataTableQueryParamsBuilder setParams(List<Param> params) {
-        params.forEach( p-> this.mergeParam(p));
+        params.forEach(p-> this.mergeParam(p));
         return this;
     }
 
     private void mergeParam(Param param) {
-        if(param instanceof ColumnParam) mergeColumnParam((ColumnParam) param);
+        if(param instanceof ColumnParamImpl) mergeColumnParam((ColumnParamImpl) param);
         else
-        if(param instanceof SearchParam) mergeSearchParam((SearchParam) param);
+        if(param instanceof SearchParamImpl) mergeSearchParam((SearchParamImpl) param);
         else
-        if(param instanceof OrderParam) mergeOrderParam((OrderParam) param);
+        if(param instanceof OrderParamImpl) mergeOrderParam((OrderParamImpl) param);
         else
             mergeGeneralParam(param);
     }
@@ -49,21 +49,21 @@ class DataTableQueryParamsBuilder {
         setObjectValueFromParam(this, param);
     }
 
-    private void mergeOrderParam(OrderParam param) {
-        ColumnOrder order = columnOrders.stream().filter(o -> param.getIndex()==o.getIndex())
-                .findFirst().orElse(new ColumnOrder());
+    private void mergeOrderParam(OrderParamImpl param) {
+        ColumnOrderImpl order = columnOrders.stream().filter(o -> param.getIndex()==o.getIndex())
+                .findFirst().orElse(new ColumnOrderImpl());
         order.setIndex(param.getIndex());
         setObjectValueFromParam(order, param);
         columnOrders.add(order);
     }
 
-    private void mergeSearchParam(SearchParam param) {
+    private void mergeSearchParam(SearchParamImpl param) {
         setObjectValueFromParam(this, param);
     }
 
-    private void mergeColumnParam(ColumnParam param) {
-        ColumnInfo info = columnInfos.stream().filter(i -> param.getColumnId()==i.getIndex())
-                .findFirst().orElse(new ColumnInfo());
+    private void mergeColumnParam(ColumnParamImpl param) {
+        ColumnInfoImpl info = columnInfos.stream().filter(i -> param.getColumnId()==i.getIndex())
+                .findFirst().orElse(new ColumnInfoImpl());
         info.setIndex(param.getColumnId());
 
         // use reflection to set column info value
@@ -79,8 +79,8 @@ class DataTableQueryParamsBuilder {
                     .start(start)
                     .searchValue(searchValue)
                     .searchRegex(searchRegex)
-                    .columnInfos(columnInfos)
-                    .columnOrders(columnOrders)
+                    .columnInfos(new HashSet<ColumnInfo>(columnInfos))
+                    .columnOrders(new HashSet<ColumnOrder>(columnOrders))
                     .build();
     }
 

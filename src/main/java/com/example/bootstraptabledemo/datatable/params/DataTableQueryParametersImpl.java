@@ -1,5 +1,8 @@
-package com.example.bootstraptabledemo.datatable;
+package com.example.bootstraptabledemo.datatable.params;
 
+import com.example.bootstraptabledemo.datatable.ColumnInfo;
+import com.example.bootstraptabledemo.datatable.ColumnOrder;
+import com.example.bootstraptabledemo.datatable.DataTableQueryParameters;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

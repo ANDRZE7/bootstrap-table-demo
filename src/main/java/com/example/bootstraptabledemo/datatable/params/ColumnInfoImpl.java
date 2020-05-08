@@ -1,11 +1,12 @@
-package com.example.bootstraptabledemo.datatable;
+package com.example.bootstraptabledemo.datatable.params;
 
+import com.example.bootstraptabledemo.datatable.ColumnInfo;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ColumnInfoImpl implements ColumnInfo {
+class ColumnInfoImpl implements ColumnInfo {
     private Integer index;
     private String data;
     private String name;

@@ -2,6 +2,7 @@ package com.example.bootstraptabledemo.services;
 
 import com.example.bootstraptabledemo.datatable.DataTableQueryParameters;
 import com.example.bootstraptabledemo.datatable.DataTableResponse;
+import com.example.bootstraptabledemo.datatable.DataTableResponseBuilder;
 import com.example.bootstraptabledemo.domain.Person;
 import com.example.bootstraptabledemo.domain.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public DataTableResponse query(DataTableQueryParameters parameters) {
         List<Person> results = this.executeQuery(parameters);
-        DataTableResponse dataTableResponse = DataTableResponse.builder()
+        DataTableResponse dataTableResponse = DataTableResponseBuilder.builder()
                 .draw(parameters.getDraw())
                 .recordsFiltered(results.size())
                 .recordsTotal(results.size())

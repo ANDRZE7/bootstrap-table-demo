@@ -1,9 +1,8 @@
-package com.example.bootstraptabledemo.datatable;
+package com.example.bootstraptabledemo.datatable.params;
 
-import com.example.bootstraptabledemo.datatable.params.ColumnParamImpl;
-import com.example.bootstraptabledemo.datatable.params.OrderParamImpl;
-import com.example.bootstraptabledemo.datatable.params.Param;
-import com.example.bootstraptabledemo.datatable.params.SearchParamImpl;
+import com.example.bootstraptabledemo.datatable.ColumnInfo;
+import com.example.bootstraptabledemo.datatable.ColumnOrder;
+import com.example.bootstraptabledemo.datatable.DataTableQueryParameters;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;

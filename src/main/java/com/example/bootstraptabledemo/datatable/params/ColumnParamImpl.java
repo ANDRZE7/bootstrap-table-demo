@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ColumnParamImpl extends ParamImpl implements ColumnParam {
+class ColumnParamImpl extends ParamImpl implements ColumnParam {
     private int columnId;
 
     @Builder(builderMethodName = "columnParamBuilder")

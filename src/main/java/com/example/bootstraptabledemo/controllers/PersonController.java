@@ -1,9 +1,9 @@
 package com.example.bootstraptabledemo.controllers;
 
 import com.example.bootstraptabledemo.datatable.DataTableQueryParameters;
-import com.example.bootstraptabledemo.datatable.DataTableQueryParametersFactory;
 import com.example.bootstraptabledemo.datatable.DataTableResponse;
 import com.example.bootstraptabledemo.datatable.ParamResolverException;
+import com.example.bootstraptabledemo.datatable.params.DataTableQueryParametersFactory;
 import com.example.bootstraptabledemo.domain.Person;
 import com.example.bootstraptabledemo.services.PersonService;
 import org.springframework.http.HttpStatus;

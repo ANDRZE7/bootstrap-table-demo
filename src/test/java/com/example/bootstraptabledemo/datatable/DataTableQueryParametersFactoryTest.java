@@ -1,5 +1,6 @@
 package com.example.bootstraptabledemo.datatable;
 
+import com.example.bootstraptabledemo.datatable.params.DataTableQueryParametersFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Builder
-public class ParamImpl implements Param {
+class ParamImpl implements Param {
     private final String id;
     private final String name;
     private final String value;

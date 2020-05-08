@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderParamImpl extends ParamImpl implements OrderParam {
+class OrderParamImpl extends ParamImpl implements OrderParam {
     private int index;
 
     @Builder(builderMethodName = "orderParamBuilder")

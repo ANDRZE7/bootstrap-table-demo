@@ -1,9 +1,9 @@
 package com.example.bootstraptabledemo.datatable;
 
 public interface DataTableResponse {
-    int getRecordsTotal();
+    Long getRecordsTotal();
 
-    int getRecordsFiltered();
+    Long getRecordsFiltered();
 
     int getDraw();
 

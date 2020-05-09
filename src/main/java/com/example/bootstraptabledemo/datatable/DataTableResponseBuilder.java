@@ -12,15 +12,15 @@ import java.util.List;
 public class DataTableResponseBuilder implements DataTableResponse {
     private static final long serialVersionUID = 1L;
 
-    private int recordsTotal;
-    private int recordsFiltered;
+    private Long recordsTotal;
+    private Long recordsFiltered;
     private int draw;
 
     @Singular
     private final List data;
 
     @Builder
-    public DataTableResponseBuilder(int recordsTotal, int recordsFiltered, int draw, List data) {
+    public DataTableResponseBuilder(Long recordsTotal, Long recordsFiltered, int draw, List data) {
         super();
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsFiltered;

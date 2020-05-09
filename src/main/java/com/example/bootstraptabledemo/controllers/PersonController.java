@@ -35,8 +35,12 @@ public class PersonController {
 
     @GetMapping({"example2"})
     public String getPersonsExample2(Model model) {
-        model.addAttribute("persons", personService.findAll());
         return "example2";
+    }
+
+    @GetMapping({"example3"})
+    public String getPersonsExample3(Model model) {
+        return "example3";
     }
 
     /**

@@ -6,12 +6,11 @@ import com.example.bootstraptabledemo.datatable.DataTableResponseBuilder;
 import com.example.bootstraptabledemo.domain.Person;
 import com.example.bootstraptabledemo.domain.PersonRepository;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
 @Service
-public class PersonServiceImpl implements PersonService {
+class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
 
@@ -26,17 +25,29 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public DataTableResponse query(DataTableQueryParameters parameters) {
-        List<Person> results = this.executeQuery(parameters);
+        DataTableQueryResult result  = this.executeQuery(parameters);
         DataTableResponse dataTableResponse = DataTableResponseBuilder.builder()
                 .draw(parameters.getDraw())
-                .recordsFiltered(results.size())
-                .recordsTotal(results.size())
-                .data(results)
+//                .recordsFiltered(result.filteredResult.size())
+                .recordsFiltered(result.reordsTotal)
+                .recordsTotal(result.reordsTotal)
+                .data(result.filteredResult)
                 .build();
         return dataTableResponse;
     }
 
-    private List<Person> executeQuery(DataTableQueryParameters parameters) {
-        throw new NotImplementedException();
+    private DataTableQueryResult executeQuery(DataTableQueryParameters parameters) {
+        List<Person> result = personRepository.findTop10ByOrderByIdDesc();
+        return new DataTableQueryResult(100, result);
+    }
+
+    private class DataTableQueryResult {
+        private final int reordsTotal;
+        private final List<Person> filteredResult;
+
+        public DataTableQueryResult(int reordsTotal, List<Person> filteredResult) {
+            this.reordsTotal = reordsTotal;
+            this.filteredResult = filteredResult;
+        }
     }
 }

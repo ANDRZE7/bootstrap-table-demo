@@ -37,8 +37,8 @@ class PersonServiceImpl implements PersonService {
         DataTableResponse dataTableResponse = DataTableResponseBuilder.builder()
                 .draw(parameters.getDraw())
 //                .recordsFiltered(result.filteredResult.size())
-                .recordsFiltered(result.reordsTotal)
-                .recordsTotal(result.reordsTotal)
+                .recordsFiltered(result.recordsTotal)
+                .recordsTotal(result.recordsTotal)
                 .data(result.filteredResult)
                 .build();
         return dataTableResponse;
@@ -89,11 +89,11 @@ class PersonServiceImpl implements PersonService {
     }
 
     private class DataTableQueryResult {
-        private final int reordsTotal;
+        private final int recordsTotal;
         private final List<Person> filteredResult;
 
-        public DataTableQueryResult(int reordsTotal, List<Person> filteredResult) {
-            this.reordsTotal = reordsTotal;
+        public DataTableQueryResult(int recordsTotal, List<Person> filteredResult) {
+            this.recordsTotal = recordsTotal;
             this.filteredResult = filteredResult;
         }
     }

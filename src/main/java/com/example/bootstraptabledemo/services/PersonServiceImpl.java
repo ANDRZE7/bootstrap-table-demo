@@ -7,10 +7,18 @@ import com.example.bootstraptabledemo.domain.Person;
 import com.example.bootstraptabledemo.domain.PersonRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 class PersonServiceImpl implements PersonService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final PersonRepository personRepository;
 
@@ -37,8 +45,47 @@ class PersonServiceImpl implements PersonService {
     }
 
     private DataTableQueryResult executeQuery(DataTableQueryParameters parameters) {
-        List<Person> result = personRepository.findTop10ByOrderByIdDesc();
-        return new DataTableQueryResult(100, result);
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
+        Root<Person> from = cq.from(Person.class);
+
+        // where predicates
+        if(!parameters.getSearchValue().isEmpty()) {
+            List<Predicate> predicates = new ArrayList<>();
+            parameters.getColumnInfos().stream().filter(ci -> ci.getSearchable()).forEach(c -> {
+                String columnName = c.getData(); /* this holds column name for now, TODO: fix how the column name is stored in data table query parameters */
+                // Converting all to string, consider to use a datatype mapping in the future
+                Predicate predicate = cb.like(from.get(columnName).as(String.class), parameters.getSearchValue());
+                // % must be passed explicitly, to this is commented out: String.format("%%%s%%", parameters.getSearchValue()));
+                predicates.add(predicate);
+            });
+            Predicate finalPredicate;
+            finalPredicate = cb.or(predicates.toArray(new Predicate[predicates.size()]));
+            cq.where(finalPredicate);
+        }
+
+        // apply ordering
+        List<Order> orderList = new ArrayList<>();
+        parameters.getColumnOrders().forEach(co -> {
+            // select column name
+            Optional<String> columnName = parameters.getColumnInfos().stream()
+                    .filter(ci -> ci.getIndex().equals(co.getColumn()))
+                    .map(ci -> ci.getData()).findFirst();
+
+            // determine type of sorting
+            if(columnName.isPresent())
+            if(co.getDir().equals("asc"))
+                orderList.add(cb.asc(from.get(columnName.get())));
+            else
+                orderList.add(cb.desc(from.get(columnName.get())));
+
+        });
+        if(orderList.size()>0)
+            cq.orderBy(orderList);
+
+        List<Person> persons = entityManager.createQuery(cq).getResultList();
+        return new DataTableQueryResult(100, persons);
     }
 
     private class DataTableQueryResult {

@@ -170,11 +170,11 @@
                     url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
                 },
                 columns: [
-                    { "data": "id" },
+                    { "data": "id", "searchable": true },
                     { "data": "name" },
                     { "data": "surname" },
-                    { "data": "email", "searchable": false, "orderable": false},
-                    { "data": "dateOfBirth" },
+                    { "data": "email", "true": false, "orderable": false},
+                    { "data": "dateOfBirth", "searchable": true },
                     { "data": "personalNumber" }
                 ]
             });

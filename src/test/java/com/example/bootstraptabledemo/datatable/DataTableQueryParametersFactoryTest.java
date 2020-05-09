@@ -4,8 +4,10 @@ import com.example.bootstraptabledemo.datatable.params.DataTableQueryParametersF
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class DataTableQueryParametersFactoryTest {
 
     // test data
-    Map<String, String> map = new HashMap<String, String>(){
+    Map<String, String> map = new HashMap<String, String>() {
         {
-            put("draw", "1" );
+            put("draw", "1");
             put("columns[0][data]", "id");
             put("columns[0][name]", "");
             put("columns[0][searchable]", "true");
-            put("columns[0][orderable]",	"true");
+            put("columns[0][orderable]", "true");
             put("columns[0][search][value]", "");
             put("columns[0][search][regex]", "false");
             put("columns[1][data]", "name");
@@ -99,10 +101,11 @@ class DataTableQueryParametersFactoryTest {
     void processUnderscoreParamTest() throws ParamResolverException {
 
         // for given map
-        Map<String, String> map = new HashMap<String, String>(){
+        Map<String, String> map = new HashMap<String, String>() {
             {
-               put("_", "1588776055582");
-            }};
+                put("_", "1588776055582");
+            }
+        };
 
         DataTableQueryParameters params = DataTableQueryParametersFactory.createFromParametersMap(map);
 
@@ -112,7 +115,7 @@ class DataTableQueryParametersFactoryTest {
 
     @Test
     void searchParamsTest() throws ParamResolverException {
-        final String value =  "093RY32-9Nf23";
+        final String value = "093RY32-9Nf23";
         // when
         Map<String, String> map = new HashMap<String, String>() {
             {
@@ -124,12 +127,12 @@ class DataTableQueryParametersFactoryTest {
 
         // then
         assertEquals(value, params.getSearchValue());
-        assertEquals( false, params.getSearchRegex());
+        assertEquals(false, params.getSearchRegex());
     }
 
     @Test
     void searchParamsEmptyStringTrueRegexTest() throws ParamResolverException {
-        final String value =  "oJG9-w4-g9WEon";
+        final String value = "oJG9-w4-g9WEon";
         // when
         Map<String, String> map = new HashMap<String, String>() {
             {
@@ -141,7 +144,7 @@ class DataTableQueryParametersFactoryTest {
 
         // then
         assertEquals(value, params.getSearchValue());
-        assertEquals( true, params.getSearchRegex());
+        assertEquals(true, params.getSearchRegex());
     }
 
     @Test
@@ -164,7 +167,7 @@ class DataTableQueryParametersFactoryTest {
         assertEquals(1, cis.size());
         ColumnInfo ci = cis.stream().findFirst().orElse(null);
         assertNotNull(ci);
-        assertEquals("id",     ci.getData());
+        assertEquals("id", ci.getData());
         assertEquals("kjgy8474", ci.getName());
         assertEquals(true, ci.getSearchable());
         assertEquals(true, ci.getOrderable());
@@ -175,9 +178,9 @@ class DataTableQueryParametersFactoryTest {
     @Test
     void processSimpleProps() throws ParamResolverException {
         // when
-        Map<String, String> map = new HashMap<String, String>(){
+        Map<String, String> map = new HashMap<String, String>() {
             {
-                put("draw", "1" );
+                put("draw", "1");
                 put("start", "0");
                 put("length", "10");
                 put("search[value]", "oNWG)408g3");
@@ -196,5 +199,44 @@ class DataTableQueryParametersFactoryTest {
         assertEquals("152", params.get_());
     }
 
+    @Test
+    void selectingSearchableOrderableColumns() throws ParamResolverException {
+        Map<String, String> map = new HashMap<String, String>() {
+            {
+                put("draw", "1");
+                put("columns[0][data]", "id");
+                put("columns[0][name]", "");
+                put("columns[0][searchable]", "true");
+                put("columns[0][orderable]", "true");
+                put("columns[0][search][value]", "");
+                put("columns[0][search][regex]", "false");
+                put("columns[1][data]", "name");
+                put("columns[1][name]", "");
+                put("columns[1][searchable]", "false");
+                put("columns[1][orderable]", "false");
+                put("columns[1][search][value]", "");
+                put("columns[1][search][regex]", "false");
+                put("columns[2][data]", "surname");
+                put("columns[2][name]", "");
+                put("columns[2][searchable]", "false");
+                put("columns[2][orderable]", "true");
+                put("columns[2][search][value]", "");
+                put("columns[2][search][regex]", "false");
+            }
+        };
+
+        DataTableQueryParameters params = DataTableQueryParametersFactory.createFromParametersMap(map);
+
+        // then
+        List<ColumnInfo> searchableColumns = params.getColumnInfos().stream().filter(ci -> ci.getSearchable()).collect(Collectors.toList());
+        List<ColumnInfo> orderableColumns = params.getColumnInfos().stream().filter(ci -> ci.getOrderable()).collect(Collectors.toList());
+        assertEquals(1, searchableColumns.size());
+        assertEquals(2, orderableColumns.size());
+
+        // output column data
+        params.getColumnInfos().stream().filter(ci -> ci.getSearchable()).forEach(
+                c -> System.out.println(c.getData())
+        );
+    }
 
 }

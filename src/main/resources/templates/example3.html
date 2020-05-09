@@ -121,6 +121,26 @@
         </table>
     </div>
     <script type="text/javascript">
+
+        // this function is to fire query to server after enter is pressed in the search window
+        $(document).on("preInit.dt", function () {
+            var $sb = $(".dataTables_filter input[type='search']");
+            // remove current handler
+            $sb.off();
+            // Add key hander
+            $sb.on("keypress", function (evtObj) {
+                if (evtObj.keyCode == 13) {
+                    $('#myDataTable').DataTable().search($sb.val()).draw();
+                }
+            });
+            // add button and button handler
+            var btn = $("<button type='button'>Go</button>");
+            $sb.after(btn);
+            btn.on("click", function (evtObj) {
+                $('#myDataTable').DataTable().search($sb.val()).draw();
+            });
+        });
+
         $(document).ready(function () {
             $('#myDataTable').DataTable({
                 "processing": true,

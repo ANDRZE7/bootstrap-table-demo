@@ -100,7 +100,9 @@ public class DataTableQueryExecutor<T> {
             parameters.getColumnInfos().stream().filter(ci -> ci.getSearchable()).forEach(c -> {
                 String columnName = c.getData(); /* this holds column name for now, TODO: fix how the column name is stored in data table query parameters */
                 // Converting all to string, consider to use a datatype mapping in the future
-                Predicate predicate = context.criteriaBuilder.like(context.from.get(columnName).as(String.class), parameters.getSearchValue());
+                Predicate predicate = context.criteriaBuilder
+                        .like(context.criteriaBuilder.lower(
+                                context.from.get(columnName).as(String.class)), parameters.getSearchValue().toLowerCase());
                 // % must be passed explicitly, to this is commented out: String.format("%%%s%%", parameters.getSearchValue()));
                 predicates.add(predicate);
             });

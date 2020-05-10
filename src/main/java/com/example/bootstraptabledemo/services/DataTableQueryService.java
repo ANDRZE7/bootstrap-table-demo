@@ -20,7 +20,7 @@ public class DataTableQueryService {
     public static final String COUNT_TOTAL = "total";
     public static final String COUNT_FILTERED = "filtered";
 
-    // Persistance EntityManager injected in constructor.
+    // Persistence EntityManager injected in constructor.
     //    @PersistenceContext
     //    private EntityManager entityManager;
     private final EntityManager entityManager;

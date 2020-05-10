@@ -1,14 +1,11 @@
 package com.example.bootstraptabledemo.services;
 
-import com.example.bootstraptabledemo.datatable.ColumnInfo;
-import com.example.bootstraptabledemo.datatable.ColumnOrder;
 import com.example.bootstraptabledemo.datatable.DataTableQueryParameters;
 import com.example.bootstraptabledemo.datatable.DataTableResponse;
+import com.example.bootstraptabledemo.datatable.params.DataTableQueryParametersLocalFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,46 +25,6 @@ class PersonServiceImplTestIT {
     }
 
     private DataTableQueryParameters createDataTableQueryParamters() {
-        return new DataTableQueryParameters() {
-            @Override
-            public String get_() {
-                return null;
-            }
-
-            @Override
-            public Integer getDraw() {
-                return 10;
-            }
-
-            @Override
-            public Integer getStart() {
-                return null;
-            }
-
-            @Override
-            public Integer getLength() {
-                return null;
-            }
-
-            @Override
-            public String getSearchValue() {
-                return null;
-            }
-
-            @Override
-            public Boolean getSearchRegex() {
-                return null;
-            }
-
-            @Override
-            public Set<ColumnOrder> getColumnOrders() {
-                return null;
-            }
-
-            @Override
-            public Set<ColumnInfo> getColumnInfos() {
-                return null;
-            }
-        };
+        return DataTableQueryParametersLocalFactory.create();
     }
 }

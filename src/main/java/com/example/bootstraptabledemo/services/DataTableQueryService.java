@@ -98,7 +98,7 @@ public class DataTableQueryService {
 
     private Predicate constructWherePredicate(final DataTableQueryParameters parameters) {
         // where predicates
-        if(!parameters.getSearchValue().isEmpty()) {
+        if(null != parameters.getSearchValue() && !parameters.getSearchValue().isEmpty()) {
             List<Predicate> predicates = new ArrayList<>();
             parameters.getColumnInfos().stream().filter(ci -> ci.getSearchable()).forEach(c -> {
                 String columnName = c.getData(); /* this holds column name for now, TODO: fix how the column name is stored in data table query parameters */

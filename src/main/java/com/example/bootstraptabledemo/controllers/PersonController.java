@@ -9,10 +9,7 @@ import com.example.bootstraptabledemo.services.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
@@ -27,20 +24,13 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @GetMapping({"", "index", "example1"})
-    public String getPersonsExample1(Model model) {
-        model.addAttribute("persons", personService.findAll());
-        return "example1";
-    }
-
-    @GetMapping({"example2"})
-    public String getPersonsExample2(Model model) {
-        return "example2";
-    }
-
-    @GetMapping({"example3"})
-    public String getPersonsExample3(Model model) {
-        return "example3";
+    @GetMapping("{example}")
+    public String getPersonsExample3(Model model, @PathVariable String example) {
+        model.addAttribute("exampleName", example);
+        // for example 1 push the data to be binded by Thymeleaf
+        if("example1".equals(example))
+            model.addAttribute("persons", personService.findAll());
+        return "persons";
     }
 
     /**

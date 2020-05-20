@@ -85,81 +85,174 @@
           src="https://cdn.datatables.net/searchpanes/1.0.1/js/dataTables.searchPanes.js"></script>
   <script type="text/javascript"
           src="https://cdn.datatables.net/searchpanes/1.0.1/js/searchPanes.bootstrap4.js"></script>
-
-  <script type="text/javascript"
-          src="../static/scripts/myScripts.js"></script>
 </head>
 
 <body>
-  <div class="container mb-3 mt-3">
-    <table class="table table-striped table-bordered"
-           style="width: 100%;"
-           id="myDataTable">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Imie</th>
-          <th scope="col">Nazwisko</th>
-          <th scope="col">E-mail</th>
-          <th scope="col">Data urodzenia</th>
-          <th scope="col">PESEL</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="person : ${persons}">
-          <th scope="row"
-              th:text="${person.id}">1</th>
-          <td th:text="${person.name}">Janusz</td>
-          <td th:text="${person.surname}">Kłopociński</td>
-          <td th:text="${person.email}">janusz.k@nomail.com</td>
-          <td th:text="${person.dateOfBirth}">2000-01-01</td>
-          <td th:text="${person.personalNumber}">12304982 30</td>
-        </tr>
-        <tr th:remove="all">
-          <th scope="row">2</th>
-          <td>Zbigniew</td>
-          <td>Gąpka</td>
-          <td>zibi.gabka@somedomain.com</td>
-          <td>1999-01-01</td>
-          <td>0091929 92</td>
-        </tr>
-        <tr th:remove="all">
-          <th scope="row">3</th>
-          <td>Piotr</td>
-          <td>Kłopotek</td>
-          <td>p.trabel@double-trouble.com</td>
-          <td>1995-03-01</td>
-          <td>1234-pl-10</td>
-        </tr>
-        <tr th:remove="all"></tr>
-      </tbody>
-    </table>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const example = /*[[${example}]]*/ "default";
+      /*]]>*/
+  </script>
+
+  <div class="container col-sm-6"
+       style="padding-top: 3rem;">
+    <h2 style="text-align: center;">Lista Osób</h2>
+
+    <hr />
+
+    <div class="container mb-3 mt-3">
+      <table class="table table-striped table-bordered"
+             style="width: 100%;"
+             id="myDataTable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Imie</th>
+            <th scope="col">Nazwisko</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Data urodzenia</th>
+            <th scope="col">PESEL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="person : ${persons}">
+            <th scope="row"
+                th:text="${person.id}">1</th>
+            <td th:text="${person.name}">Janusz</td>
+            <td th:text="${person.surname}">Kłopociński</td>
+            <td th:text="${person.email}">janusz.k@nomailcom</td>
+            <td th:text="${person.dateOfBirth}">2000-01-01</td>
+            <td th:text="${person.personalNumber}">12304982 30</td>
+          </tr>
+          <tr th:remove="all">
+            <th scope="row">2</th>
+            <td>Zbigniew</td>
+            <td>Gąpka</td>
+            <td>zibi.gabka@somedomain.com</td>
+            <td>1999-01-01</td>
+            <td>0091929 92</td>
+          </tr>
+          <tr th:remove="all">
+            <th scope="row">3</th>
+            <td>Piotr</td>
+            <td>Kłopotek</td>
+            <td>p.trabel@double-trouble.com</td>
+            <td>1995-03-01</td>
+            <td>1234-pl-10</td>
+          </tr>
+        </tbody>
+        <tfoots>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Imie</th>
+            <th scope="col">Nazwisko</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Data urodzenia</th>
+            <th scope="col">PESEL</th>
+          </tr>
+        </tfoots>
+      </table>
+    </div>
   </div>
 
   <script type="text/javascript">
-    /*
     $(document).ready(function () {
-      // initializeTable(tableId, processing, serverSide, url, languageUrl) {
-      initializeTable("#myDataTable", false, false);
-    });
-    */
-    /*
-    $(document).ready(function () {
+      switch (example) {
+        case 'example1': {
           $("#myDataTable").DataTable({
-              language: {
-                  url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
-              },
-              columns: [
-                  { "data": "id" },
-                  { "data": "name" },
-                  { "data": "surname" },
-                  { "data": "email" },
-                  { "data": "dateOfBirth" },
-                  { "data": "personalNumber" }
-              ]
+            language: {
+              url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
+            },
           });
-      });
-      */
+        }
+          break;
+        case 'example2': {
+          $('#myDataTable').DataTable({
+            "processing": true,
+            "ajax": {
+              url: "../persons/api/data",
+              dataSrc: function (json) {
+                for (var i = 0, ien = json.data.length; i < ien; i++) {
+                  json.data[i][0] = '<a href="/message/' + json.data[i][0] + '>View message</a>';
+                }
+                return json.data;
+              },
+              dataFilter: function (data) {
+                let json = {};
+                json.data = jQuery.parseJSON(data);
+                json.draw = 1;
+                json.recordsTotal = json.data.length;
+                json.recordsFiltered = json.data.length;
+                result = JSON.stringify(json); // return JSON string
+                return result;
+              }
+            },
+            language: {
+              url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
+            },
+            columns: [
+              { "data": "id" },
+              { "data": "name" },
+              { "data": "surname" },
+              { "data": "email" },
+              { "data": "dateOfBirth" },
+              { "data": "personalNumber" }
+            ]
+          });
+        }
+          break;
+        case 'example3': {
+
+          // initialize searh button and key press for example 3
+          $(document).on("preInit.dt", function () {
+            var $sb = $(".dataTables_filter input[type='search']");
+            // remove current handler
+            $sb.off();
+            // Add key hander
+            $sb.on("keypress", function (evtObj) {
+                if (evtObj.keyCode == 13) {
+                    $('#myDataTable').DataTable().search($sb.val()).draw();
+                }
+            });
+            // add button and button handler
+            var btn = $("<button type='button'>Go</button>");
+            $sb.after(btn);
+            btn.on("click", function (evtObj) {
+                $('#myDataTable').DataTable().search($sb.val()).draw();
+            });
+          });
+
+          $('#myDataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+              url: "../persons/api/data/managed",
+              dataSrc: function (json) {
+                for (var i = 0, ien = json.data.length; i < ien; i++) {
+                  json.data[i][0] = '<a href="/message/' + json.data[i][0] + '>View message</a>';
+                }
+                return json.data;
+              },
+              dataFilter: function (data) {
+                return data;
+              }
+            },
+            language: {
+              url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Polish.json",
+            },
+            columns: [
+              { "data": "id", "searchable": true },
+              { "data": "name" },
+              { "data": "surname" },
+              { "data": "email", "searchable": true, "orderable": true },
+              { "data": "dateOfBirth", "searchable": true },
+              { "data": "personalNumber" }
+            ]
+          });
+        }
+          break;
+      }
+    });
   </script>
 </body>
 

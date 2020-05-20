@@ -23,7 +23,8 @@ class PersonServiceImpl implements PersonService {
 
     @Override
     public Iterable<Person> findAll() {
-        return this.personRepository.findAll();
+        // TODO: revert this change before check in.
+        return this.personRepository.findTop1000ByOrderByIdDesc();
     }
 
     @Override

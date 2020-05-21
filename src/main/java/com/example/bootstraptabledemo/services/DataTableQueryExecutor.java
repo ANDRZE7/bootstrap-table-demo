@@ -52,9 +52,9 @@ public class DataTableQueryExecutor<T> {
         Predicate where = constructWherePredicate(context, parameters);
 
         if(where != null)
-            context.criteriaQuery.where(where, limit);
-        else
-            context.criteriaQuery.where(limit);
+            context.criteriaQuery.where(where);
+//        else
+//            context.criteriaQuery.where(limit);
 
         // apply order
         List<Order> orderList = constructOrderList(context, parameters);

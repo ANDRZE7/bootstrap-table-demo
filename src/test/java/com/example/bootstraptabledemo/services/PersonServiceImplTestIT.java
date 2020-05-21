@@ -19,7 +19,7 @@ class PersonServiceImplTestIT {
     @Test
     void query() {
         DataTableQueryParameters params = createDataTableQueryParamters();
-        DataTableResponse dataTableResponse = personService.query(params);
+        DataTableResponse dataTableResponse = personService.query(params, 1000);
         assertNotNull(dataTableResponse);
         assertEquals(10, dataTableResponse.getData().size());
     }

@@ -33,9 +33,9 @@ public class DataTableQueryExecutor<T> {
         }
     }
 
-    public DataTableResponse query(EntityManager entityManager, DataTableQueryParameters parameters) {
+    public DataTableResponse query(EntityManager entityManager, DataTableQueryParameters parameters, int limit) {
         QueryContext queryContext = new QueryContext<T>(entityManager);
-        DataTableQueryResult result  = this.executeQuery(queryContext, parameters);
+        DataTableQueryResult result  = this.executeQuery(queryContext, parameters, limit);
         DataTableResponse dataTableResponse = DataTableResponseBuilder.builder()
                 .draw(parameters.getDraw())
                 .recordsFiltered(new Long(result.filteredResult.size()))
@@ -46,11 +46,15 @@ public class DataTableQueryExecutor<T> {
         return dataTableResponse;
     }
 
-    private DataTableQueryResult executeQuery(QueryContext context, DataTableQueryParameters parameters) {
+    private DataTableQueryResult executeQuery(QueryContext context, DataTableQueryParameters parameters, int rowsetLimit) {
         // apply where
-        Predicate wherePredicate = constructWherePredicate(context, parameters);
-        if(wherePredicate != null)
-            context.criteriaQuery.where(wherePredicate);
+        Predicate limit = constructLimitPredicete(context, rowsetLimit);
+        Predicate where = constructWherePredicate(context, parameters);
+
+        if(where != null)
+            context.criteriaQuery.where(where, limit);
+        else
+            context.criteriaQuery.where(limit);
 
         // apply order
         List<Order> orderList = constructOrderList(context, parameters);
@@ -58,7 +62,7 @@ public class DataTableQueryExecutor<T> {
             context.criteriaQuery.orderBy(orderList);
 
         // count records
-        Map<String, Long> count = getCount(context, wherePredicate);
+        Map<String, Long> count = getCount(context, where, limit);
 
         // apply paging
         Query query = context.entityManager.createQuery(context.criteriaQuery);
@@ -73,15 +77,16 @@ public class DataTableQueryExecutor<T> {
                 objectList);
     }
 
-    private Map<String, Long> getCount(QueryContext context, Predicate where) {
+    private Map<String, Long> getCount(QueryContext context, Predicate where, Predicate limit) {
         CriteriaQuery<Long> cq = context.criteriaBuilder.createQuery(Long.class);
-        cq.select(context.criteriaBuilder.count(cq.from(c)));
+        cq.select(context.criteriaBuilder.count(context.from));
 
         // total records without filter applied
+        cq.where(limit);
         final Long totalRecords = context.entityManager.createQuery(cq).getSingleResult();
 
         // total records with where predicate applied
-        cq.where(where);
+        cq.where(where, limit);
         final Long recordsFiltered = where == null ? totalRecords : context.entityManager.createQuery(cq).getSingleResult();
 
         // construct and return the result
@@ -91,6 +96,17 @@ public class DataTableQueryExecutor<T> {
                 put(COUNT_FILTERED, recordsFiltered);
             }
         };
+    }
+
+    private Predicate constructLimitPredicete(QueryContext context, final int rowsetLimit) {
+        Predicate predicate = context.criteriaBuilder
+                .lessThanOrEqualTo(context.from.get("id"), rowsetLimit);
+//
+//
+//
+//        Predicate result =  context.criteriaBuilder.and(context.criteriaBuilder.lessThanOrEqualTo(context.from.get(
+//                "id"), rowsetLimit));
+        return  predicate;
     }
 
     private Predicate constructWherePredicate(QueryContext context, final DataTableQueryParameters parameters) {
@@ -106,7 +122,8 @@ public class DataTableQueryExecutor<T> {
                 // % must be passed explicitly, to this is commented out: String.format("%%%s%%", parameters.getSearchValue()));
                 predicates.add(predicate);
             });
-            return context.criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+            return context.criteriaBuilder
+                    .or(predicates.toArray(new Predicate[predicates.size()]));
         }
         return null;
     }

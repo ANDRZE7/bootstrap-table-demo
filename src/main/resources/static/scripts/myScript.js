@@ -109,7 +109,7 @@ $(document).ready(function () {
                     }
                 });
                 // add button and button handler
-                var btn = $("<button type='button'>Go</button>");
+                var btn = $("<button type='button' class='btn btn-sm ml-1'>Go</button>");
                 $sb.after(btn);
                 btn.on("click", function (evtObj) {
                     $('#myDataTable').DataTable().search($sb.val()).draw();

@@ -99,13 +99,20 @@
       /*]]>*/
   </script>
 
-  <div class="container col-sm-6"
+  <div class="container col-sm-9"
        style="padding-top: 3rem;">
     <h2 style="text-align: center;">Lista Osób</h2>
 
     <hr />
 
-    <div class="container mb-3 mt-3">
+    <select class=form-control name="rowsetSize" id="rowsetSize" dir="rtl" onchange="udpateRowsetSize(event)">
+      <option value="100" selected>100</option>
+      <option value="1000">1000</option>
+      <option value="10000">10000</option>
+      <option value="100000">100000</option>
+    </select>
+
+    <div class="m-3">
       <table class="table table-striped table-bordered"
              style="width: 100%;"
              id="myDataTable">

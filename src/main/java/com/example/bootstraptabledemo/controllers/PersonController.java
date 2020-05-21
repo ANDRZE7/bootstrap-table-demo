@@ -7,6 +7,7 @@ import com.example.bootstraptabledemo.datatable.params.DataTableQueryParametersF
 import com.example.bootstraptabledemo.domain.Person;
 import com.example.bootstraptabledemo.services.PersonService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class PersonController {
 
     private final PersonService personService;
+    private Integer rowsetSize = 100;
 
     public PersonController(PersonService personService) {
         this.personService = personService;
@@ -29,7 +31,7 @@ public class PersonController {
         model.addAttribute("exampleName", example);
         // for example 1 push the data to be binded by Thymeleaf
         if("example1".equals(example))
-            model.addAttribute("persons", personService.findAll());
+            model.addAttribute("persons", personService.findAll(rowsetSize));
         return "persons";
     }
 
@@ -40,7 +42,7 @@ public class PersonController {
     @GetMapping({"/api/data"})
     @ResponseBody
     public Iterable<Person> getPersons() {
-        return personService.findAll();
+        return personService.findAll(rowsetSize);
     }
 
     @GetMapping({"/api/data/managed"})
@@ -49,10 +51,17 @@ public class PersonController {
         try{
             DataTableQueryParameters dataTableQueryParameters = DataTableQueryParametersFactory
                     .createFromParametersMap(allRequestParams);
-            return personService.query(dataTableQueryParameters);
+            return personService.query(dataTableQueryParameters, rowsetSize);
         } catch (ParamResolverException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "DataTable request query params format is not supported");
         }
+    }
+
+    @PostMapping("/api")
+    @ResponseBody
+    public ResponseEntity<Integer> setRowsetSize(@RequestParam int size) {
+        this.rowsetSize = size;
+        return new ResponseEntity<>(size, HttpStatus.OK);
     }
 }

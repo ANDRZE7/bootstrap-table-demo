@@ -1,12 +1,19 @@
 package com.example.bootstraptabledemo.domain;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public interface PersonRepository extends CrudRepository<Person, Integer> {
+public class PersonRepository {
 
-    List<Person> findTop1000ByOrderByIdDesc();
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<Person> findOrderedByIdLimitedTo(int limit) {
+        return entityManager.createQuery("SELECT p FROM Person p ORDER BY p.id",
+                Person.class).setMaxResults(limit).getResultList();
+    }
 }

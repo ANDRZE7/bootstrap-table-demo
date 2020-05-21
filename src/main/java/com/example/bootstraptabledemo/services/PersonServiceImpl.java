@@ -22,14 +22,13 @@ class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Iterable<Person> findAll() {
-        // TODO: revert this change before check in.
-        return this.personRepository.findTop1000ByOrderByIdDesc();
+    public Iterable<Person> findAll(int limit) {
+        return this.personRepository.findOrderedByIdLimitedTo(limit);
     }
 
     @Override
-    public DataTableResponse query(DataTableQueryParameters parameters) {
+    public DataTableResponse query(DataTableQueryParameters parameters, int limit) {
         DataTableQueryExecutor service = new DataTableQueryExecutor<Person>(Person.class);
-        return service.query(entityManager, parameters);
+        return service.query(entityManager, parameters, limit);
     }
 }

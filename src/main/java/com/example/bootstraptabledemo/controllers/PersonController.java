@@ -26,6 +26,11 @@ public class PersonController {
         this.personService = personService;
     }
 
+    @ModelAttribute("select")
+    public int getSelect() {
+        return this.rowsetSize;
+    }
+
     @GetMapping("{example}")
     public String getPersonsExample3(Model model, @PathVariable String example) {
         model.addAttribute("exampleName", example);

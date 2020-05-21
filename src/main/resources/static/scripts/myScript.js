@@ -45,6 +45,7 @@ function initializeTable(tableId, processing, serverSide, url, languageUrl) {
 // bind to #rowsetSize HTML select; onchange event
 function udpateRowsetSize(event) {
     $.post("/persons/api", {'size': event.target.value}, function () {
+        window.location.reload();
     });
 
 }

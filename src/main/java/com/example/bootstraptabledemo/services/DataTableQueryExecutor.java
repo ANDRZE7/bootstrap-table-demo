@@ -79,14 +79,15 @@ public class DataTableQueryExecutor<T> {
 
     private Map<String, Long> getCount(QueryContext context, Predicate where, Predicate limit) {
         CriteriaQuery<Long> cq = context.criteriaBuilder.createQuery(Long.class);
-        cq.select(context.criteriaBuilder.count(context.from));
+        cq.select(context.criteriaBuilder.count(cq.from(c)));
 
         // total records without filter applied
-        cq.where(limit);
+        // TODO: This throws error: cq.where(limit);
         final Long totalRecords = context.entityManager.createQuery(cq).getSingleResult();
 
         // total records with where predicate applied
-        cq.where(where, limit);
+        // cq.where(where, limit);
+        cq.where(where);
         final Long recordsFiltered = where == null ? totalRecords : context.entityManager.createQuery(cq).getSingleResult();
 
         // construct and return the result
